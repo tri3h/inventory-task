@@ -1,7 +1,9 @@
-<script setup></script>
+<script setup>
+import StatsPanel from "@/components/StatsPanel.vue";
+</script>
 
 <template>
-  <div>Hello World</div>
+  <StatsPanel />
 </template>
 
 <style scoped></style>
