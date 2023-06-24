@@ -14,8 +14,10 @@ defaultState.items[2] = {
   amount: 5,
 };
 
+const storageState = JSON.parse(localStorage.getItem("state"));
+
 export const store = createStore({
-  state: localStorage.getItem("state") || defaultState,
+  state: storageState || defaultState,
   mutations: {
     SET_ITEM_AMOUNT(state, { amount, index }) {
       state.items[index].amount = amount;

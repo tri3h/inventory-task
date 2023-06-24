@@ -2,6 +2,13 @@
 import StatsPanel from "@/components/StatsPanel.vue";
 import MessagePanel from "@/components/MessagePanel.vue";
 import InventoryPanel from "@/components/InventoryPanel.vue";
+import { useStore } from "vuex";
+
+const store = useStore();
+
+window.addEventListener("beforeunload", () => {
+  localStorage.setItem("state", JSON.stringify(store.state));
+});
 </script>
 
 <template>
@@ -15,8 +22,8 @@ import InventoryPanel from "@/components/InventoryPanel.vue";
 <style scoped>
 .container {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 24px;
+  max-width: 850px;
 }
 </style>
