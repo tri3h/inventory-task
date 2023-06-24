@@ -7,6 +7,7 @@ const store = useStore();
 
 const showModal = ref(false);
 const clickedItemIndex = ref(null);
+const container = ref(null);
 
 const onItemClick = (item, index) => {
   if (item.hasOwnProperty("amount")) {
@@ -14,15 +15,37 @@ const onItemClick = (item, index) => {
     showModal.value = true;
   }
 };
+
+const onItemDragend = (event, index) => {
+  const ITEM_WIDTH = 105;
+  const ITEM_HEIGHT = 100;
+  const { top, bottom, left, right } = container.value.getBoundingClientRect();
+  const { clientX, clientY, offsetX, offsetY } = event;
+  const newIndex =
+    Math.floor(offsetX / ITEM_WIDTH) +
+    Math.floor(offsetY / ITEM_HEIGHT) * 5 +
+    index;
+  if (
+    newIndex >= 0 &&
+    newIndex <= 25 &&
+    clientX > left &&
+    clientX < right &&
+    clientY < bottom &&
+    clientY > top
+  ) {
+    store.commit("SET_ITEM_INDEX", { oldIndex: index, newIndex });
+  }
+};
 </script>
 
 <template>
   <div class="inventory">
-    <div class="inventory__container">
+    <div class="inventory__container" ref="container">
       <div
         class="item"
         v-for="(item, index) in store.state.items"
         @click="onItemClick(item, index)"
+        @dragend="(event) => onItemDragend(event, index)"
       >
         <img :src="item.src" />
         <div v-if="item.hasOwnProperty('amount')" class="item__counter">
