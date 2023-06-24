@@ -30,16 +30,22 @@ const onItemClick = (item, index) => {
         </div>
       </div>
     </div>
-    <InventoryModal
-      v-if="showModal"
-      :itemIndex="clickedItemIndex"
-      class="inventory__modal"
-      @close="() => (showModal = false)"
-    />
+    <Transition name="slide">
+      <InventoryModal
+        v-if="showModal"
+        :itemIndex="clickedItemIndex"
+        class="inventory__modal"
+        @close="() => (showModal = false)"
+      />
+    </Transition>
   </div>
 </template>
 
 <style scoped lang="scss">
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
 .inventory {
   width: 527px;
   height: 500px;
@@ -47,6 +53,7 @@ const onItemClick = (item, index) => {
   border-radius: 12px;
   border: 1px solid var(--c-tundora);
   background-color: var(--c-mine-shaft-very-dark);
+  overflow: hidden;
 
   &__container {
     display: flex;
@@ -69,6 +76,7 @@ const onItemClick = (item, index) => {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
   &:hover {
     background-color: var(--c-mine-shaft-light);
@@ -112,6 +120,22 @@ const onItemClick = (item, index) => {
     opacity: 0.4;
     border-radius: 6px 0px 0px 0px;
     border: 1px solid var(--c-tundora);
+  }
+}
+
+.slide {
+  &-enter-active {
+    transition: all 0.8s ease-out;
+  }
+
+  &-leave-active {
+    transition: all 0.8s;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    transform: translateX(200px);
+    opacity: 0;
   }
 }
 </style>

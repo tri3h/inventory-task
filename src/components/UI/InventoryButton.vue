@@ -35,10 +35,15 @@ const style = computed(() => {
   text-align: center;
   font-size: 14px;
   border: none;
+  cursor: pointer;
 
   &_red {
     color: var(--c-white);
     background-color: var(--c-red);
+
+    &:hover {
+      background-color: var(--c-red-light);
+    }
   }
 
   &_white {

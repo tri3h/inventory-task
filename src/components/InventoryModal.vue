@@ -42,61 +42,63 @@ const onConfirmClick = () => {
 
 <template>
   <div class="modal">
-    <img
-      class="modal__close"
-      src="/icons/close.svg"
-      alt="close"
-      @click="onCloseClick"
-    />
-    <div class="modal__content">
-      <div class="modal__image">
-        <img
-          :src="store.state.items[itemIndex].src"
-          alt="item"
-          width="130"
-          height="130"
-        />
-      </div>
-      <div class="info">
-        <InventoryLine :width="211" :height="30" />
-        <div class="info__description">
-          <InventoryLine :width="211" :height="10" />
-          <InventoryLine :width="211" :height="10" />
-          <InventoryLine :width="211" :height="10" />
-          <InventoryLine :width="180" :height="10" />
-          <InventoryLine :width="80" :height="10" />
+    <div class="modal__container">
+      <img
+        class="modal__close"
+        src="/icons/close.svg"
+        alt="close"
+        @click="onCloseClick"
+      />
+      <div class="modal__content">
+        <div class="modal__image">
+          <img
+            :src="store.state.items[itemIndex].src"
+            alt="item"
+            width="130"
+            height="130"
+          />
+        </div>
+        <div class="info">
+          <InventoryLine :width="211" :height="30" />
+          <div class="info__description">
+            <InventoryLine :width="211" :height="10" />
+            <InventoryLine :width="211" :height="10" />
+            <InventoryLine :width="211" :height="10" />
+            <InventoryLine :width="180" :height="10" />
+            <InventoryLine :width="80" :height="10" />
+          </div>
+        </div>
+        <div class="control">
+          <InventoryButton
+            text="Удалить предмет"
+            backgroundColor="red"
+            :width="220"
+            :height="39"
+            @click="onDeleteClick"
+          />
         </div>
       </div>
-      <div class="control">
-        <InventoryButton
-          text="Удалить предмет"
-          backgroundColor="red"
-          :width="220"
-          :height="39"
-          @click="onDeleteClick"
+      <div class="deleting" v-if="showDeleting">
+        <InventoryInput
+          placeholder="Введите количество"
+          @change="(v) => (amount = v)"
         />
-      </div>
-    </div>
-    <div class="deleting" v-if="showDeleting">
-      <InventoryInput
-        placeholder="Введите количество"
-        @change="(v) => (amount = v)"
-      />
-      <div class="deleting__control">
-        <InventoryButton
-          text="Отмена"
-          backgroundColor="white"
-          :width="88"
-          :height="33"
-          @click="onCancelClick"
-        />
-        <InventoryButton
-          text="Подтвердить"
-          backgroundColor="red"
-          :width="112"
-          :height="33"
-          @click="onConfirmClick"
-        />
+        <div class="deleting__control">
+          <InventoryButton
+            text="Отмена"
+            backgroundColor="white"
+            :width="88"
+            :height="33"
+            @click="onCancelClick"
+          />
+          <InventoryButton
+            text="Подтвердить"
+            backgroundColor="red"
+            :width="112"
+            :height="33"
+            @click="onConfirmClick"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -104,14 +106,16 @@ const onConfirmClick = () => {
 
 <style scoped lang="scss">
 .modal {
-  width: 250px;
-  height: 498px;
-  padding: 0 15px;
-  border-left: 1px solid var(--c-tundora);
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-  background: var(--c-mine-shaft-very-dark);
-  backdrop-filter: blur(8px);
+  &__container {
+    width: 250px;
+    height: 498px;
+    padding: 0 15px;
+    border-left: 1px solid var(--c-tundora);
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    background: var(--c-mine-shaft-very-dark);
+    backdrop-filter: blur(8px);
+  }
 
   &__content {
     position: relative;
