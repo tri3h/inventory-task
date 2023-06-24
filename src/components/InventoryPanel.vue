@@ -1,49 +1,16 @@
 <script setup>
 import InventoryModal from "@/components/InventoryModal.vue";
 import { ref } from "vue";
+import { useStore } from "vuex";
+
+const store = useStore();
 
 const showModal = ref(false);
-const clickedItem = ref(null);
+const clickedItemIndex = ref(null);
 
-const items = [
-  {
-    src: "/images/item-green.png",
-    amount: 4,
-  },
-  {
-    src: "/images/item-orange.png",
-    amount: 2,
-  },
-  {
-    src: "/images/item-purple.png",
-    amount: 5,
-  },
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-];
-
-const onItemClick = (item) => {
+const onItemClick = (item, index) => {
   if (item.hasOwnProperty("amount")) {
-    clickedItem.value = item;
+    clickedItemIndex.value = index;
     showModal.value = true;
   }
 };
@@ -52,16 +19,20 @@ const onItemClick = (item) => {
 <template>
   <div class="inventory">
     <div class="inventory__container">
-      <div class="item" v-for="item in items" @click="onItemClick(item)">
+      <div
+        class="item"
+        v-for="(item, index) in store.state.items"
+        @click="onItemClick(item, index)"
+      >
         <img :src="item.src" />
-        <div v-if="item.amount" class="item__counter">
+        <div v-if="item.hasOwnProperty('amount')" class="item__counter">
           {{ item.amount }}
         </div>
       </div>
     </div>
     <InventoryModal
       v-if="showModal"
-      :item="clickedItem"
+      :itemIndex="clickedItemIndex"
       class="inventory__modal"
       @close="() => (showModal = false)"
     />

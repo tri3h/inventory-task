@@ -3,10 +3,13 @@ import InventoryLine from "@/components/UI/InventoryLine.vue";
 import InventoryButton from "@/components/UI/InventoryButton.vue";
 import InventoryInput from "@/components/UI/InventoryInput.vue";
 import { ref } from "vue";
+import { useStore } from "vuex";
 
-defineProps({
-  item: {},
+const props = defineProps({
+  itemIndex: Number,
 });
+
+const store = useStore();
 
 const showDeleting = ref(false);
 const amount = ref(0);
@@ -14,7 +17,6 @@ const amount = ref(0);
 const emit = defineEmits(["close"]);
 
 const onCloseClick = () => {
-  console.log("click");
   emit("close");
 };
 
@@ -27,7 +29,14 @@ const onCancelClick = () => {
 };
 
 const onConfirmClick = () => {
-  //delete
+  if (amount.value > 0) {
+    let newAmount = store.state.items[props.itemIndex].amount - amount.value;
+    newAmount = Math.max(newAmount, 0);
+    store.commit("SET_ITEM_AMOUNT", {
+      amount: newAmount,
+      index: props.itemIndex,
+    });
+  }
 };
 </script>
 
@@ -41,7 +50,12 @@ const onConfirmClick = () => {
     />
     <div class="modal__content">
       <div class="modal__image">
-        <img :src="item.src" alt="item" width="130" height="130" />
+        <img
+          :src="store.state.items[itemIndex].src"
+          alt="item"
+          width="130"
+          height="130"
+        />
       </div>
       <div class="info">
         <InventoryLine :width="211" :height="30" />
