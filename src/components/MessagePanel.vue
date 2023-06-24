@@ -4,7 +4,7 @@ import InventoryLine from "@/components/UI/InventoryLine.vue";
 
 <template>
   <div class="message">
-    <img class="message__image" src="/icons/close.svg" alt="close" />
+    <img class="message__close" src="/icons/close.svg" alt="close" />
     <InventoryLine :width="699" :height="36" />
   </div>
 </template>
@@ -19,7 +19,7 @@ import InventoryLine from "@/components/UI/InventoryLine.vue";
   border-radius: 12px;
   border: 1px solid var(--c-tundora);
 
-  &__image {
+  &__close {
     position: absolute;
     top: 8px;
     right: 8px;
