@@ -4,6 +4,10 @@ import InventoryButton from "@/components/UI/InventoryButton.vue";
 import InventoryInput from "@/components/UI/InventoryInput.vue";
 import { ref } from "vue";
 
+defineProps({
+  item: {},
+});
+
 const showDeleting = ref(false);
 const amount = ref(0);
 
@@ -37,12 +41,7 @@ const onConfirmClick = () => {
     />
     <div class="modal__content">
       <div class="modal__image">
-        <img
-          src="/images/item-green.png"
-          alt="item-green"
-          width="130"
-          height="130"
-        />
+        <img :src="item.src" alt="item" width="130" height="130" />
       </div>
       <div class="info">
         <InventoryLine :width="211" :height="30" />
