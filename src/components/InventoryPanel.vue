@@ -2,8 +2,26 @@
 import InventoryModal from "@/components/InventoryModal.vue";
 import { ref } from "vue";
 import { useStore } from "vuex";
+import itemGreen from "/images/item-green.png";
+import itemOrange from "/images/item-orange.png";
+import itemPurple from "/images/item-purple.png";
 
 const store = useStore();
+
+if (store.state.items.findIndex((x) => x != null) == -1) {
+  store.commit("ADD_ITEM", {
+    src: itemGreen,
+    amount: 4,
+  });
+  store.commit("ADD_ITEM", {
+    src: itemOrange,
+    amount: 2,
+  });
+  store.commit("ADD_ITEM", {
+    src: itemPurple,
+    amount: 5,
+  });
+}
 
 const showModal = ref(false);
 const clickedItemIndex = ref(null);
@@ -47,8 +65,8 @@ const onItemDragend = (event, index) => {
         @click="onItemClick(item, index)"
         @dragend="(event) => onItemDragend(event, index)"
       >
-        <img :src="item.src" />
-        <div v-if="item.hasOwnProperty('amount')" class="item__counter">
+        <img v-if="item" :src="item.src" />
+        <div v-if="item" class="item__counter">
           {{ item.amount }}
         </div>
       </div>

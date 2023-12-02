@@ -1,24 +1,16 @@
 import { createStore } from "vuex";
 
-const defaultState = { items: Array(25).fill({}) };
-defaultState.items[0] = {
-  src: "/images/item-green.png",
-  amount: 4,
-};
-defaultState.items[1] = {
-  src: "/images/item-orange.png",
-  amount: 2,
-};
-defaultState.items[2] = {
-  src: "/images/item-purple.png",
-  amount: 5,
-};
-
+const defaultState = { items: Array(25).fill(null) };
 const storageState = JSON.parse(localStorage.getItem("state"));
 
 export const store = createStore({
   state: storageState || defaultState,
   mutations: {
+    ADD_ITEM(state, item) {
+      const index = state.items.findIndex((x) => x == null);
+      state.items[index] = item;
+    },
+
     SET_ITEM_AMOUNT(state, { amount, index }) {
       state.items[index].amount = amount;
     },
